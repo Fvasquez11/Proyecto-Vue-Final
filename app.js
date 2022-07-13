@@ -20,16 +20,15 @@ createRoles();
 mongoose.connect(process.env.DB_ADDRESS).then(db => console.log("Conectado a la base de datos"))
   .catch(err => console.log(err))
 
-// app.use(cors({
-//   origin: function(origin, callback){
-//     if(whiteList.includes(origin)){
-//       return callback(null, origin)
-//     }
-//     return callback("Error de CORS")
-//   }
-// }))
+app.use(cors({
+  origin: function(origin, callback){
+    if(whiteList.includes(origin)){
+      return callback(null, origin)
+    }
+    return callback("Error de CORS")
+  }
+}))
 
-app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
