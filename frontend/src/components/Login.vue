@@ -1,19 +1,47 @@
 <script>
+import { useMainStore } from "@/stores/mainStore";
+// import { Router } from "vue-router";
 export default {
   setup() {
+    const mainStore = useMainStore();
+    return {
+      mainStore,
+    };
+  },
+  data() {
     return {
       username: "",
       password: "",
     };
   },
   methods: {
-    onSubmit: function (e) {
+    onSubmit: async function (e) {
+      // router.push({ path: '/user' })
       try {
-        const url = `http://localhost:4000/api/login`;
-        
+        const url = `http://localhost:4000/api/auth/login`;
+        const response = await this.axios
+          .post(url, {
+            username: this.username,
+            password: this.password,
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "application/json",
+            },
+            withCredentials: false,
+            mode: "no-cors",
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        console.log(response);
+        this.mainStore.jwt = response;
       } catch (e) {
         console.error(e);
       }
+        
     },
   },
 };
@@ -23,7 +51,7 @@ export default {
   <main>
     <div class="loginContainer">
       <div><h3>Login</h3></div>
-      <b-form @submit="onSubmit">
+      <b-form @submit="onSubmit" >
         <b-form-group
           id="input-group-user"
           label="Usuario"
@@ -43,6 +71,7 @@ export default {
           <b-form-input
             id="input-pass"
             v-model="password"
+            type="password"
             required
           ></b-form-input>
         </b-form-group>

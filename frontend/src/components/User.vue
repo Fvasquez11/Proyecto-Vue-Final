@@ -83,9 +83,5 @@ export default {
   justify-content: center;
   padding: 2%;
 }
-.chart {
-  width: 40rem;
-  height: 30rem;
-  border: solid;
-}
+
 </style>

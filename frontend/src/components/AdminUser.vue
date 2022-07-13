@@ -22,32 +22,42 @@ export default {
       items: [],
       selectedUserID: null,
       users: [],
+      usersNames: [],
+      ID: null,
+      usersLoaded: false,
+      userLoaded: false,
     };
   },
   methods: {
-    selectUser(ID) {
-      console.log("Seleccionado usuario: " + ID);
-
-    //   try {
-    //     const url = `http://localhost:4000/api/resources/apiusers/${ID}/sessions`;
-    //     const response = await this.axios.get(url);
-    //     this.items = response.data;
-    //     this.loaded = true;
-    //   } catch (e) {
-    //     console.error(e);
-    //   }
+    async selectUser(name) {
+      this.ID = this.users.find((user) => user.username == name).id;
+      console.log(this.ID);
+      try {
+        const url = `http://localhost:4000/api/resources/apiusers/${this.ID}/sessions`;
+        const response = await this.axios.get(url);
+        this.items = response.data;
+        this.userLoaded = true;
+      } catch (e) {
+        console.error(e);
+      }
     },
   },
   async mounted() {
-    // this.loaded = false;
-    // try {
-    //   const url = `http://localhost:4000/api/resources/apiusers`;
-    //   const response = await this.axios.get(url);
-    //   this.users = response.data;
-    //   this.loaded = true;
-    // } catch (e) {
-    //   console.error(e);
-    // }
+    try {
+      const url = `http://localhost:4000/api/resources/apiusers`;
+      const response = await this.axios.get(url);
+      this.usersNames = response.data.map((user) => user.username);
+      this.users = response.data;
+      console.log(this.users);
+      this.usersLoaded = true;
+    } catch (e) {
+      console.error(e);
+    }
+  },
+  computed: {
+    usuarios: function () {
+      this.usersNames = this.users.map((user) => user.username);
+    },
   },
 };
 </script>
@@ -65,7 +75,7 @@ export default {
               <b-col cols="10"
                 ><b-form-select
                   v-model="selectedUserID"
-                  :options="users"
+                  :options="usersNames"
                 ></b-form-select
               ></b-col>
               <b-col cols="2"
@@ -77,6 +87,7 @@ export default {
           </b-form>
         </div>
       </div>
+      <div><h5>Sesiones:</h5></div>
       <div class="table">
         <b-table striped hover :items="items" :fields="fields"></b-table>
       </div>
@@ -85,14 +96,14 @@ export default {
           <hr />
           <h5>Puntuaciones de las sesiones de estudio:</h5>
           <br />
-          <div><ScoreLineChart /></div>
+          <div v-if="userLoaded"><ScoreLineChart :userID="this.ID" /></div>
         </div>
         <br />
         <br />
         <div class="chart">
           <h5>Duraciones de las sesiones de estudio:</h5>
           <br />
-          <div><DurationLineChart /></div>
+          <div v-if="userLoaded"><DurationLineChart :userID="this.ID" /></div>
         </div>
         <br />
         <br />
@@ -116,10 +127,11 @@ export default {
 .chart {
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 .charts {
   display: grid;
-  grid-template-columns: auto;
+  grid-template-columns: 60%;
   justify-content: center;
 }
 .exitButton {
