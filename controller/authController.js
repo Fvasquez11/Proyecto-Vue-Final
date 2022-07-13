@@ -28,12 +28,13 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     const { username, password } = req.body
     try {
-        let user = await User.findOne({ username });
+        let user = await User.findOne({ username }).populate('roles');
         if (!user) return res.status(403).json({ error: 'No existe el usuario' });
         const correctPassword = await user.comparePassword(password);
         if (!correctPassword) return res.status(403).json({ error: 'Contraseña incorrecta' });
+        const userRoles = user.roles.map(rol => rol.name)
         const { token, expiresIn } = generateToken(user.id)
-        return res.json({ token, expiresIn });
+        return res.json({ userRoles, token, expiresIn });
     }
     catch (error) {
         console.log(error)

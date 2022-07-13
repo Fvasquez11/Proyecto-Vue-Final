@@ -1,16 +1,13 @@
 var express = require('express');
 var router = express.Router();
-const { getUserData, getUsers, getUserScoreLineChart, getUserDurationLineChart, getUserSessions } = require('../controller/apiController')
+const { getUserData, getUsers, getUserScoreLineChart, getUserDurationLineChart } = require('../controller/apiController')
 
 /* GET home page. */
-router.get('/apiusers/:id', getUserData);
-
+router.get('/apiusers/:username', getUserData);
 router.get('/apiusers', getUsers);
+router.get('/apiusers/:username/score-data-chart', getUserScoreLineChart);
+router.get('/apiusers/:username/duration-data-chart', getUserDurationLineChart);
 
-router.get('/apiusers/:id/score-data-chart', getUserScoreLineChart);
-
-router.get('/apiusers/:id/sessions', getUserSessions);
-
-router.get('/apiusers/:id/duration-data-chart', getUserDurationLineChart);
+// router.get('/apiusers/:username/sessions', getUserSessions);
 
 module.exports = router;

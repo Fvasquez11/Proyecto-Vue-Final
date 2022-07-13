@@ -1,6 +1,6 @@
 <template>
   <div class="chartContainer">
-    <Line v-if="loaded" :chart-data="chartData" userID="id" />
+    <Line v-if="loaded" :chart-data="chartData" :username="username" />
   </div>
 </template>
 
@@ -35,13 +35,13 @@ export default {
     chartData: null,
   }),
   props: {
-    userID: Number,
+    username: String,
   },
   async mounted() {
     this.loaded = false;
-    if (this.userID != null) {
+    if (this.username != null) {
       try {
-        const url = `http://localhost:4000/api/resources/apiusers/${this.userID}/duration-data-chart`;
+        const url = `http://localhost:4000/api/resources/apiusers/${this.username}/duration-data-chart`;
         const response = await this.axios.get(url);
         this.chartData = response.data;
         this.loaded = true;

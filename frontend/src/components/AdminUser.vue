@@ -14,26 +14,23 @@ export default {
     return {
       loaded: false,
       fields: [
-        { key: "id", label: "Id", sortable: true },
+        //{ key: "name", label: "Nombre", sortable: true },
         { key: "date", label: "Fecha", sortable: true },
         { key: "score", label: "Puntuación", sortable: true },
         { key: "duration", label: "Duración", sortable: true },
       ],
       items: [],
-      selectedUserID: null,
+      selectedUser: null,
       users: [],
-      usersNames: [],
-      ID: null,
+      user: null,
       usersLoaded: false,
       userLoaded: false,
     };
   },
   methods: {
     async selectUser(name) {
-      this.ID = this.users.find((user) => user.username == name).id;
-      console.log(this.ID);
       try {
-        const url = `http://localhost:4000/api/resources/apiusers/${this.ID}/sessions`;
+        const url = `http://localhost:4000/api/resources/apiusers/${name}`;
         const response = await this.axios.get(url);
         this.items = response.data;
         this.userLoaded = true;
@@ -46,17 +43,15 @@ export default {
     try {
       const url = `http://localhost:4000/api/resources/apiusers`;
       const response = await this.axios.get(url);
-      this.usersNames = response.data.map((user) => user.username);
       this.users = response.data;
-      console.log(this.users);
       this.usersLoaded = true;
     } catch (e) {
       console.error(e);
     }
   },
   computed: {
-    usuarios: function () {
-      this.usersNames = this.users.map((user) => user.username);
+    userNames: function () {
+      return this.users.map((user) => user.username);
     },
   },
 };
@@ -70,12 +65,12 @@ export default {
       <div class="selector">
         <div><h5>Seleccione usuario:</h5></div>
         <div>
-          <b-form class="B-Form" @submit.prevent="selectUser(selectedUserID)">
+          <b-form class="B-Form" @submit.prevent="selectUser(selectedUser)">
             <b-form-row>
               <b-col cols="10"
                 ><b-form-select
-                  v-model="selectedUserID"
-                  :options="usersNames"
+                  v-model="selectedUser"
+                  :options="userNames"
                 ></b-form-select
               ></b-col>
               <b-col cols="2"
@@ -96,14 +91,14 @@ export default {
           <hr />
           <h5>Puntuaciones de las sesiones de estudio:</h5>
           <br />
-          <div v-if="userLoaded"><ScoreLineChart :userID="this.ID" /></div>
+          <div v-if="userLoaded"><ScoreLineChart :username="this.selectedUser" /></div>
         </div>
         <br />
         <br />
         <div class="chart">
           <h5>Duraciones de las sesiones de estudio:</h5>
           <br />
-          <div v-if="userLoaded"><DurationLineChart :userID="this.ID" /></div>
+          <div v-if="userLoaded"><DurationLineChart :username="this.selectedUser" /></div>
         </div>
         <br />
         <br />

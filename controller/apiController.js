@@ -6,29 +6,28 @@ const getData = async () => {
     return data
 }
 
-const getUser = async (userID) => {
+const getUser = async (username) => {
     const data = await getData()
-    let userDataArray = data.filter((user) => user.id == userID)
+    let userDataArray = data.filter((user) => user.username == username)
     if (userDataArray.length === 1) return userDataArray[0]
     throw new Error('No existe un usuario asociado al ID')
 }
 
-const getUserData = async (req, res) => {
-    try {
-        const userID = req.params.id
-        const userData = await getUser(userID)
-        return res.status(200).json(userData)
-    } catch (error) {
-        return res.status(400).json({ error: error.message })
-    }
-}
+// const getUserData = async (req, res) => {
+//     try {
+//         const username = req.params.username
+//         const userData = await getUser(username)
+//         return res.status(200).json(userData)
+//     } catch (error) {
+//         return res.status(400).json({ error: error.message })
+//     }
+// }
 
 const getUsers = async (req, res) => {
     try {
         const data = await getData()
         return res.status(200).json(
             data.map(user => ({
-                id: user.id,
                 username: user.username
             }))
         )
@@ -37,20 +36,10 @@ const getUsers = async (req, res) => {
     }
 }
 
-const getUserSessions = async (req, res) => {
-    try {
-        const userID = req.params.id
-        const user = await getUser(userID)
-        return res.status(200).json(user.sessions)
-    } catch (error) {
-        return res.status(400).json({ error: error.message })
-    }
-}
-
 const getUserScoreLineChart = async (req, res) => {
     try {
-        const userID = req.params.id
-        let userData = await getUser(userID)
+        const username = req.params.username
+        let userData = await getUser(username)
         userData.sessions = userData.sessions.sort(function (a, b) {
             a = a.date.split('/').reverse().join('');
             b = b.date.split('/').reverse().join('');
@@ -74,8 +63,8 @@ const getUserScoreLineChart = async (req, res) => {
 
 const getUserDurationLineChart = async (req, res) => {
     try {
-        const userID = req.params.id
-        let userData = await getUser(userID)
+        const username = req.params.username
+        let userData = await getUser(username)
         userData.sessions = userData.sessions.sort(function (a, b) {
             a = a.date.split('/').reverse().join('');
             b = b.date.split('/').reverse().join('');
@@ -97,8 +86,18 @@ const getUserDurationLineChart = async (req, res) => {
     }
 }
 
+const getUserData = async (req, res) => {
+    try {
+        const username = req.params.username
+        const user = await getUser(username)
+        return res.status(200).json(user.sessions)
+    } catch (error) {
+        return res.status(400).json({ error: error.message })
+    }
+}
+
 exports.getUserData = getUserData
 exports.getUsers = getUsers
-exports.getUserSessions = getUserSessions
 exports.getUserScoreLineChart = getUserScoreLineChart
 exports.getUserDurationLineChart = getUserDurationLineChart
+// exports.getUserSessions = getUserSessions
