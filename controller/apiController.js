@@ -48,7 +48,7 @@ const getUserScoreLineChart = async (req, res) => {
         let scoreLineChart = {
             labels: userData.sessions.map((session) => session.date),
             datasets: [{
-                label: 'Score Line Chart',
+                label: 'Gráfico de puntuaciones',
                 data: userData.sessions.map((session) => session.score),
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -73,7 +73,7 @@ const getUserDurationLineChart = async (req, res) => {
         let durationLineChart = {
             labels: userData.sessions.map((session) => session.date),
             datasets: [{
-                label: 'Duration Line Chart',
+                label: 'Gráfico de duración',
                 data: userData.sessions.map((session) => session.duration),
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',

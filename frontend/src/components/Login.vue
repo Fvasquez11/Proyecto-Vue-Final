@@ -23,12 +23,6 @@ export default {
           .post(url, {
             username: this.username,
             password: this.password,
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Content-Type": "application/json",
-            },
-            withCredentials: false,
-            mode: "no-cors",
           })
           .then(function (response) {
             console.log(response);

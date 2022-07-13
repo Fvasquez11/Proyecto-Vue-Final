@@ -5,11 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
 require('dotenv').config()
+const cors = require('cors')
 const createRoles = require('./public/javascripts/initialSetup')
 
 var indexRouter = require('./routes/indexRouter');
 var authRouter = require('./routes/authRouter');
 var apiRouter = require('./routes/apiRouter');
+
+const whiteList = [process.env.ORIGIN1]
 
 var app = express();
 createRoles();
@@ -17,6 +20,16 @@ createRoles();
 mongoose.connect(process.env.DB_ADDRESS).then(db => console.log("Conectado a la base de datos"))
   .catch(err => console.log(err))
 
+// app.use(cors({
+//   origin: function(origin, callback){
+//     if(whiteList.includes(origin)){
+//       return callback(null, origin)
+//     }
+//     return callback("Error de CORS")
+//   }
+// }))
+
+app.use(cors())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
