@@ -1,5 +1,4 @@
 const User = require('../models/UserModel')
-const Role = require('../models/RoleModel')
 
 const authorizeUser = (req, res, next) => {
     try {
