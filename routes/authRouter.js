@@ -7,14 +7,8 @@ const register = require('../controller/authController').register;
 
 
 /* POST home page. */
-router.post('/register', async (req, res, next) => {
-  register(req, res);
-});
+router.post('/register', register);
 
-router.post('/login', async (req, res, next) => {
-  login(req, res);
-});
-
-router.get("/user/:name",infoUser)
+router.post('/login', login);
 
 module.exports = router;

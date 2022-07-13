@@ -40,15 +40,15 @@ const login = async (req, res) => {
     }
 }
 
-const infoUser = async (req, res) => {
-    try {
-        const user = await User.findOne({username: req.params.name}).populate('roles')
-        return res.json({ username: user.username, roles: user.roles })
-    } catch (error) {
-        return res.status(500).json({ error: "Error de servidor" })
-    }
-}
+// const infoUser = async (req, res) => {
+//     try {
+//         const user = await User.findOne({username: req.params.username}).populate('roles')
+//         return res.json({ username: user.username, roles: user.roles })
+//     } catch (error) {
+//         return res.status(500).json({ error: "Error de servidor" })
+//     }
+// }
 
 exports.register = register
 exports.login = login
-exports.infoUser = infoUser
+//exports.infoUser = infoUser
