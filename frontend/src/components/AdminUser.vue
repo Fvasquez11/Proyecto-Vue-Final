@@ -14,7 +14,7 @@ export default {
     return {
       loaded: false,
       fields: [
-        //{ key: "name", label: "Nombre", sortable: true },
+        { key: "id", label: "ID", sortable: true },
         { key: "date", label: "Fecha", sortable: true },
         { key: "score", label: "Puntuación", sortable: true },
         { key: "duration", label: "Duración", sortable: true },
