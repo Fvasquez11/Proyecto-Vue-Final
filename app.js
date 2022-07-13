@@ -9,6 +9,7 @@ const createRoles = require('./public/javascripts/initialSetup')
 
 var indexRouter = require('./routes/indexRouter');
 var authRouter = require('./routes/authRouter');
+var apiRouter = require('./routes/apiRouter');
 
 var app = express();
 createRoles();
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', indexRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/resources', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

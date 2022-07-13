@@ -2,9 +2,24 @@ const axios = require('axios');
 
 const getUserData = async (userID) => {
     const { data } = await axios.get(process.env.API_ROUTE);
-    let userDataArray = data.filter((user) => user['id'] === userID)
+    if(!data) throw new Error('No se ha podido conectar con la api')
+    let userDataArray = data.filter((user) => user.id == userID)
     if (userDataArray.length === 1) return userDataArray[0]
     throw new Error('No existe un usuario asociado al ID')
+}
+
+const getUsers = async () => {
+    const { data } = await axios.get(process.env.API_ROUTE);
+    if(!data) throw new Error('No se ha podido conectar con la api')
+    return data.map(user => ({
+        id: user.id,
+        username: user.username
+    }))
+}
+
+const getUserSessions = async (userID) => {
+    let userData = await getUserData(userID)
+    return userData.sessions
 }
 
 const getUserScoreLineChart = async (userID) => {
@@ -48,5 +63,7 @@ const getUserDurationLineChart = async (userID) => {
 }
 
 exports.getUserData = getUserData
+exports.getUsers = getUsers
+exports.getUserSessions = getUserSessions
 exports.getUserScoreLineChart = getUserScoreLineChart
 exports.getUserDurationLineChart = getUserDurationLineChart
