@@ -24,7 +24,7 @@ export default {
           const response = await this.axios.post(url, {
             username: this.username,
             password: this.password,
-          });
+          } ,{withCredentials: true});
           console.log(response);
           console.log("Cuenta creada con exito");
           this.username = "";

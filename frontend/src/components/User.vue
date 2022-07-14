@@ -27,7 +27,7 @@ export default {
 
     try {
       const url = `http://localhost:4000/api/resources/apiusers/${this.mainStore.username}/`;
-      const response = await this.axios.get(url);
+      const response = await this.axios.get(url, {withCredentials: true});
       this.items = response.data;
       console.log(items);
       this.loaded = true;

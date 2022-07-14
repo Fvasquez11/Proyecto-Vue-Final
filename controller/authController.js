@@ -34,23 +34,12 @@ const login = async (req, res) => {
         if (!correctPassword) return res.status(403).json({ error: 'Contraseña incorrecta' });
         const userRoles = user.roles.map(rol => rol.name)
         const { token, expiresIn } = generateToken(user.id)
-        res.cookie('token',token)
-        return res.json({ userRoles,expiresIn });
+        return res.cookie('token',token,{httpOnly: true}).json({ userRoles,expiresIn });
     }
     catch (error) {
         console.log(error)
     }
 }
 
-// const infoUser = async (req, res) => {
-//     try {
-//         const user = await User.findOne({username: req.params.username}).populate('roles')
-//         return res.json({ username: user.username, roles: user.roles })
-//     } catch (error) {
-//         return res.status(500).json({ error: "Error de servidor" })
-//     }
-// }
-
 exports.register = register
 exports.login = login
-//exports.infoUser = infoUser

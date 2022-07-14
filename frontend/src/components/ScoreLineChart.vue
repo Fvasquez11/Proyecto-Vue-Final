@@ -42,7 +42,7 @@ export default {
     if (this.username != null) {
       try {
         const url = `http://localhost:4000/api/resources/apiusers/${this.username}/score-data-chart`;
-        const response = await this.axios.get(url);
+        const response = await this.axios.get(url, {withCredentials: true});
         this.chartData = response.data;
         this.loaded = true;
       } catch (e) {

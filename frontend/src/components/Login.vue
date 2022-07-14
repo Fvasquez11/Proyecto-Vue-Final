@@ -1,6 +1,5 @@
 <script>
 import { useMainStore } from "@/stores/mainStore";
-import { RouterLink, RouterView } from "vue-router";
 export default {
   setup() {
     const mainStore = useMainStore();
@@ -24,7 +23,6 @@ export default {
             username: this.username,
             password: this.password,
           },{withCredentials: true})
-        console.log(response)
         this.mainStore.jwt = response.data.token
         this.$router.push( '/user/' + this.username )
         if (response.data.userRoles[0] === "admin") {
@@ -33,7 +31,6 @@ export default {
         else {
           this.mainStore.userType = false
         }
-        console.log(response.data.userRoles[0])
         this.mainStore.username = this.username
       } catch (e) {
         console.error(e);

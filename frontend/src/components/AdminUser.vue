@@ -31,7 +31,7 @@ export default {
     async selectUser(name) {
       try {
         const url = `http://localhost:4000/api/resources/apiusers/${name}`;
-        const response = await this.axios.get(url);
+        const response = await this.axios.get(url, {withCredentials: true});
         this.items = response.data;
         this.userLoaded = true;
       } catch (e) {
@@ -42,7 +42,7 @@ export default {
   async mounted() {
     try {
       const url = `http://localhost:4000/api/resources/apiusers`;
-      const response = await this.axios.get(url);
+      const response = await this.axios.get(url, {withCredentials: true});
       this.users = response.data;
       this.usersLoaded = true;
     } catch (e) {
