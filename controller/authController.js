@@ -34,7 +34,8 @@ const login = async (req, res) => {
         if (!correctPassword) return res.status(403).json({ error: 'Contraseña incorrecta' });
         const userRoles = user.roles.map(rol => rol.name)
         const { token, expiresIn } = generateToken(user.id)
-        return res.json({ userRoles, token, expiresIn });
+        res.cookie('token',token)
+        return res.json({ userRoles,expiresIn });
     }
     catch (error) {
         console.log(error)

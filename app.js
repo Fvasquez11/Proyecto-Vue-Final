@@ -20,15 +20,7 @@ createRoles();
 mongoose.connect(process.env.DB_ADDRESS).then(db => console.log("Conectado a la base de datos"))
   .catch(err => console.log(err))
 
-app.use(cors({
-  origin: function(origin, callback){
-    if(whiteList.includes(origin)){
-      return callback(null, origin)
-    }
-    return callback("Error de CORS")
-  }
-}))
-
+app.use(cors({ credentials: true, origin: whiteList }))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -40,12 +32,12 @@ app.use('/api/auth', authRouter);
 app.use('/api/resources', apiRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

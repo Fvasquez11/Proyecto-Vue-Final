@@ -12,17 +12,6 @@ const getUser = async (username) => {
     if (userDataArray.length === 1) return userDataArray[0]
     throw new Error('No existe un usuario asociado al ID')
 }
-
-// const getUserData = async (req, res) => {
-//     try {
-//         const username = req.params.username
-//         const userData = await getUser(username)
-//         return res.status(200).json(userData)
-//     } catch (error) {
-//         return res.status(400).json({ error: error.message })
-//     }
-// }
-
 const getUsers = async (req, res) => {
     try {
         const data = await getData()
@@ -100,4 +89,3 @@ exports.getUserData = getUserData
 exports.getUsers = getUsers
 exports.getUserScoreLineChart = getUserScoreLineChart
 exports.getUserDurationLineChart = getUserDurationLineChart
-// exports.getUserSessions = getUserSessions

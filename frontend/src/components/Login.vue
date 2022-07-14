@@ -23,7 +23,7 @@ export default {
           .post(url, {
             username: this.username,
             password: this.password,
-          });
+          },{withCredentials: true})
         console.log(response)
         this.mainStore.jwt = response.data.token
         this.$router.push( '/user/' + this.username )
