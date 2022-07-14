@@ -17,7 +17,7 @@ const router = createRouter({
       component: AboutView
     },
     {
-      path: '/user',
+      path: '/user/:username',
       name: 'user',
       component: UserView
     }

@@ -26,7 +26,7 @@ export default {
           });
         console.log(response)
         this.mainStore.jwt = response.data.token
-        this.$router.push( '/user' )
+        this.$router.push( '/user/' + this.username )
         if (response.data.userRoles[0] === "admin") {
           this.mainStore.userType = true
         }
