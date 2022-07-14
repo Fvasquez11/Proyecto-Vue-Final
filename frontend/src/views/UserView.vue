@@ -21,10 +21,8 @@ export default {
   async mounted() {
     this.loaded = false;
     try {
-      const url = `http://localhost:4000/api/resources/apiusers/${this.$route.params}/`;
+      const url = `http://localhost:4000/api/resources/apiusers/${this.$route.params.username}`;
       const response = await this.axios.get(url, { withCredentials: true });
-      this.items = response.data;
-      console.log(items);
       this.loaded = true;
     } catch (e) {
       console.error(e);
