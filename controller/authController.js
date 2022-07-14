@@ -42,5 +42,19 @@ const login = async (req, res) => {
     }
 }
 
+const getUserRoles = async (req, res) => {
+    const username = req.params.username
+    try {
+        let user = await User.findOne({ username }).populate('roles');
+        if (!user) return res.status(403).json({ error: 'No existe el usuario' });
+        const userRoles = user.roles.map(rol => rol.name)
+        return res.json({roles: userRoles});
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
 exports.register = register
 exports.login = login
+exports.getUserRoles = getUserRoles

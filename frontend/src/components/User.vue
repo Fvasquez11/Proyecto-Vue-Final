@@ -22,14 +22,16 @@ export default {
       items: [],
     };
   },
+  props: {
+    username: String,
+  },
   async mounted() {
     this.loaded = false;
-
     try {
-      const url = `http://localhost:4000/api/resources/apiusers/${this.mainStore.username}/`;
+      const url = `http://localhost:4000/api/resources/apiusers/${this.username}/`;
       const response = await this.axios.get(url, {withCredentials: true});
+      console.log(response)
       this.items = response.data;
-      console.log(items);
       this.loaded = true;
     } catch (e) {
       console.error(e);
@@ -52,14 +54,14 @@ export default {
         <h5>Puntuaciones de las sesiones de estudio:</h5>
         <br />
         <div class="chart">
-          <ScoreLineChart :username="this.mainStore.username" />
+          <ScoreLineChart :username="this.username" />
         </div>
         <br />
         <br />
         <h5>Duraciones de las sesiones de estudio:</h5>
         <br />
         <div class="chart">
-          <DurationLineChart :username="this.mainStore.username" />
+          <DurationLineChart :username="this.username" />
         </div>
         <br />
         <br />
