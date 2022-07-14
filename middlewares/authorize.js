@@ -1,6 +1,6 @@
 const User = require('../models/UserModel')
 
-const authorizeUser = (req, res, next) => {
+const authorizeUser = async (req, res, next) => {
     try {
         const user = await User.findById(req.uid).populate('roles')
         if(!user) return res.status(403).json({error: "No existe el usuario"})
