@@ -3,14 +3,18 @@ import { defineStore } from 'pinia'
 export const useMainStore = defineStore('useMainStore', {
   state: () => {
     return {
-      userID: null,
+      username: null,
       jwt: null,
+      userType: true,
     }
   },
 
   actions: {
-    defineUserId(id) {
-      this.userID = id;
+    defineUsername(name) {
+      this.username = name;
+    },
+    defineJWT(token) {
+      this.jwt = token;
     }
   }
 })

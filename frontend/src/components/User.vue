@@ -23,24 +23,17 @@ export default {
     };
   },
   async mounted() {
-    // this.loaded = false;
+    this.loaded = false;
 
-    // try {
-    //   const url = `http://localhost:4000/api/resources/apiusers`;
-    //   const response = await this.axios.get(url);
-    //   this.users = response.data;
-    // } catch (e) {
-    //   console.error(e);
-    // }
-
-    // try {
-    //   const url = `http://localhost:4000/api/resources/apiusers/${mainStore.userId}/sessions`;
-    //   const response = await this.axios.get(url);
-    //   this.items = response.data;
-    //   this.loaded = true;
-    // } catch (e) {
-    //   console.error(e);
-    // }
+    try {
+      const url = `http://localhost:4000/api/resources/apiusers/${this.mainStore.username}/`;
+      const response = await this.axios.get(url);
+      this.items = response.data;
+      console.log(items);
+      this.loaded = true;
+    } catch (e) {
+      console.error(e);
+    }
   },
 };
 </script>
@@ -59,14 +52,14 @@ export default {
         <h5>Puntuaciones de las sesiones de estudio:</h5>
         <br />
         <div class="chart">
-          <ScoreLineChart />
+          <ScoreLineChart :username="this.mainStore.username" />
         </div>
         <br />
         <br />
         <h5>Duraciones de las sesiones de estudio:</h5>
         <br />
         <div class="chart">
-          <DurationLineChart />
+          <DurationLineChart :username="this.mainStore.username" />
         </div>
         <br />
         <br />

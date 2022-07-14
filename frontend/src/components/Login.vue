@@ -1,6 +1,6 @@
 <script>
 import { useMainStore } from "@/stores/mainStore";
-// import { Router } from "vue-router";
+import { RouterLink, RouterView } from "vue-router";
 export default {
   setup() {
     const mainStore = useMainStore();
@@ -12,30 +12,32 @@ export default {
     return {
       username: "",
       password: "",
+      tempJWT: "",
     };
   },
   methods: {
     onSubmit: async function (e) {
-      // router.push({ path: '/user' })
       try {
         const url = `http://localhost:4000/api/auth/login`;
         const response = await this.axios
           .post(url, {
             username: this.username,
             password: this.password,
-          })
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
           });
-        console.log(response);
-        this.mainStore.jwt = response;
+        console.log(response)
+        this.mainStore.jwt = response.data.token
+        this.$router.push( '/user' )
+        if (response.data.userRoles[0] === "admin") {
+          this.mainStore.userType = true
+        }
+        else {
+          this.mainStore.userType = false
+        }
+        console.log(response.data.userRoles[0])
+        this.mainStore.username = this.username
       } catch (e) {
         console.error(e);
       }
-        
     },
   },
 };
@@ -45,7 +47,7 @@ export default {
   <main>
     <div class="loginContainer">
       <div><h3>Login</h3></div>
-      <b-form @submit="onSubmit" >
+      <b-form @submit="onSubmit">
         <b-form-group
           id="input-group-user"
           label="Usuario"
