@@ -1,13 +1,5 @@
 <script>
-import { useMainStore } from "@/stores/mainStore";
-import { RouterLink, RouterView } from "vue-router";
 export default {
-  setup() {
-    const mainStore = useMainStore();
-    return {
-      mainStore,
-    };
-  },
   data() {
     return {
       username: "",
@@ -25,8 +17,6 @@ export default {
             username: this.username,
             password: this.password,
           } ,{withCredentials: true});
-          console.log(response);
-          console.log("Cuenta creada con exito");
           this.username = "";
           this.password = "";
           this.passwordconfirm = "";

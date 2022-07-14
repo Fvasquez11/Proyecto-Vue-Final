@@ -12,6 +12,6 @@ router.post('/register', register);
 
 router.post('/login', login);
 
-router.get('/:username/roles', getUserRoles)
+router.get('/:username/roles', tokenValidator, getUserRoles)
 
 module.exports = router;

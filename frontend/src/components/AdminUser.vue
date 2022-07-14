@@ -1,15 +1,8 @@
 <script>
 import ScoreLineChart from "@/components/ScoreLineChart.vue";
 import DurationLineChart from "@/components/DurationLineChart.vue";
-import { useMainStore } from "@/stores/mainStore";
 export default {
   components: { ScoreLineChart, DurationLineChart },
-  setup() {
-    const mainStore = useMainStore();
-    return {
-      mainStore,
-    };
-  },
   data() {
     return {
       loaded: false,
