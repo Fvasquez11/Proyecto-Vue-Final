@@ -1,5 +1,9 @@
 App Prograph
 
+Pasos para iniciar el programa:
+  -Ejecutar "npm start" en la ruta /Proyecto-Vue-Final/
+  -Ejecutar "npm run dev" en la ruta /Proyecto-Vue-Final/frontend/
+
 Funcionamiento: Las cuentas que se registren con algún nombre de usuario que aparezca en la API de Remind cargará de forma automática los datos de su sesión. En caso contrario se despliega un mensaje de que este usuario no tiene estadísticas en la plataforma Remind.
 
 Cuentas ya creadas:
