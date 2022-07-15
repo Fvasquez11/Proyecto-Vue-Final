@@ -23,6 +23,7 @@ export default {
   methods: {
     async selectUser(name) {
       try {
+        this.userLoaded = false;
         const url = `http://localhost:4000/api/resources/apiusers/${name}`;
         const response = await this.axios.get(url, { withCredentials: true });
         this.items = response.data;
@@ -43,6 +44,7 @@ export default {
   },
   async mounted() {
     try {
+      this.userLoaded = false;
       const url = `http://localhost:4000/api/resources/apiusers`;
       const response = await this.axios.get(url, { withCredentials: true });
       this.users = response.data;
