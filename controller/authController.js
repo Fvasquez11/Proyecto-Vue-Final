@@ -33,7 +33,7 @@ const login = async (req, res) => {
         const correctPassword = await user.comparePassword(password);
         if (!correctPassword) return res.status(403).json({ error: 'Contraseña incorrecta' });
         const userRoles = user.roles.map(rol => rol.name)
-        const { token, expiresIn } = generateToken(user.id)
+        const { token, expiresIn } = generateToken(user.id, 60 * 15)
         res.cookie('token',token,{httpOnly: true})
         return res.json({ userRoles,expiresIn});
     }
@@ -58,7 +58,8 @@ const getUserRoles = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        res.cookie('token','NO COOKIE',{httpOnly: true})
+        const { token } = generateToken("TOKEN FALSO", 1)
+        res.cookie('token',token,{httpOnly: true})
         return res.json({ok: "Logout exitoso"})
     } catch (error) {
         res.status(400).json({error: error.message})
