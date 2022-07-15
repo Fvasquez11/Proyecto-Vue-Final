@@ -5,11 +5,14 @@ export default {
       username: "",
       password: "",
       rejected: false,
+      error: "",
     };
   },
   methods: {
     onSubmit: async function (e) {
       try {
+        this.rejected = false;
+        this.error = "";
         const url = `http://localhost:4000/api/auth/login`;
         const response = await this.axios
           .post(url, {
@@ -18,7 +21,8 @@ export default {
           },{withCredentials: true})
         this.$router.push( '/user/' + this.username )
       } catch (e) {
-        console.error(e);
+        this.error = e.response.data.error;
+        console.error(this.error);
         this.rejected = true;
         this.username = "";
         this.password = "";
@@ -34,7 +38,7 @@ export default {
     <div class="loginContainer">
       <div><h3>Login</h3></div>
       <b-form @submit="onSubmit">
-        <b-badge v-if="rejected" variant="danger">Usuario o contraseña incorrectos</b-badge>
+        <b-badge v-if="rejected" variant="danger">{{ this.error }}</b-badge>
         <b-form-group
           id="input-group-user"
           label="Usuario"

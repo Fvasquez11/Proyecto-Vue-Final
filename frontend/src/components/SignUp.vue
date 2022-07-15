@@ -8,12 +8,16 @@ export default {
       rejected: false,
       success: false,
       passReject: false,
+      error: "",
     };
   },
   methods: {
     onSubmit: async function (e) {
       if (this.password === this.passwordconfirm) {
         try {
+          this.passReject = false;
+          this.rejected = false;
+          this.error = "";
           const url = `http://localhost:4000/api/auth/register`;
           const response = await this.axios.post(
             url,
@@ -28,14 +32,17 @@ export default {
           this.passwordconfirm = "";
           this.success = true;
         } catch (e) {
+          this.passReject = false;
           this.rejected = true;
-          console.error(e);
+          this.error = e.response.data.error;
+          console.error(this.error); 
+          
         }
       } else {
+        this.rejected = false;
         this.passReject = true;
         this.password = "";
         this.passwordconfirm = "";
-        console.log("Contrañeas no coinciden");
       }
     },
   },
@@ -46,7 +53,7 @@ export default {
   <main>
     <div><h3>Sign Up</h3></div>
     <b-form @submit="onSubmit">
-      <b-badge v-if="rejected" variant="danger">Registro fallido</b-badge>
+      <b-badge v-if="rejected" variant="danger">{{ this.error }}</b-badge>
       <b-badge v-if="passReject" variant="danger">Las contraseñas no coinciden</b-badge>
       <b-badge v-if="success" variant="success">Registro exitoso</b-badge>
       <b-form-group

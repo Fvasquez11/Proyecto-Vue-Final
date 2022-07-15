@@ -41,7 +41,6 @@ export default {
       try {
         const url = 'http://localhost:4000/api/auth/logout';
         const response = await this.axios.post(url, { withCredentials: true });
-        console.log(response)
         this.$router.push( '/')
       } catch (e) {
         console.log(e)

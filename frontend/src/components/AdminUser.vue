@@ -24,18 +24,27 @@ export default {
     async selectUser(name) {
       try {
         const url = `http://localhost:4000/api/resources/apiusers/${name}`;
-        const response = await this.axios.get(url, {withCredentials: true});
+        const response = await this.axios.get(url, { withCredentials: true });
         this.items = response.data;
         this.userLoaded = true;
       } catch (e) {
         console.error(e);
       }
     },
+    async logout() {
+      try {
+        const url = "http://localhost:4000/api/auth/logout";
+        const response = await this.axios.post(url, { withCredentials: true });
+        this.$router.push("/");
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
   async mounted() {
     try {
       const url = `http://localhost:4000/api/resources/apiusers`;
-      const response = await this.axios.get(url, {withCredentials: true});
+      const response = await this.axios.get(url, { withCredentials: true });
       this.users = response.data;
       this.usersLoaded = true;
     } catch (e) {
@@ -84,19 +93,23 @@ export default {
           <hr />
           <h5>Puntuaciones de las sesiones de estudio:</h5>
           <br />
-          <div v-if="userLoaded"><ScoreLineChart :username="this.selectedUser" /></div>
+          <div v-if="userLoaded">
+            <ScoreLineChart :username="this.selectedUser" />
+          </div>
         </div>
         <br />
         <br />
         <div class="chart">
           <h5>Duraciones de las sesiones de estudio:</h5>
           <br />
-          <div v-if="userLoaded"><DurationLineChart :username="this.selectedUser" /></div>
+          <div v-if="userLoaded">
+            <DurationLineChart :username="this.selectedUser" />
+          </div>
         </div>
         <br />
         <br />
         <div class="exitButton">
-          <b-button variant="primary" href="/">Salir</b-button>
+          <b-button variant="primary" href="/" @click="logout">Salir</b-button>
         </div>
       </div>
     </div>
