@@ -29,8 +29,6 @@ export default {
 
       if (resRoles.data.roles.includes("admin")) this.admin = true;
       else this.admin = false;
-      console.log(this.$cookies.keys())
-      console.log(document.cookie)
       this.loaded = true;
     } catch (e) {
       (this.error = true), console.error(e);

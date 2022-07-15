@@ -36,6 +36,18 @@ export default {
       console.error(e);
     }
   },
+  methods: {
+    logout: async function () {
+      try {
+        const url = 'http://localhost:4000/api/auth/logout';
+        const response = await this.axios.post(url, { withCredentials: true });
+        console.log(response)
+        this.$router.push( '/')
+      } catch (e) {
+        console.log(e)
+      }
+    },
+  },
 };
 </script>
 
@@ -65,7 +77,7 @@ export default {
         <br />
         <br />
         <div class="exitButton">
-          <b-button variant="primary" href="/">Salir</b-button>
+          <b-button variant="primary" @click="logout" >Salir</b-button>
         </div>
       </div>
     </div>
