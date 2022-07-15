@@ -1,5 +1,4 @@
 var express = require('express');
-const { infoUser } = require('../controller/authController');
 const tokenValidator = require('../middlewares/tokenValidator');
 var router = express.Router();
 const login = require('../controller/authController').login;

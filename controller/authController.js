@@ -58,7 +58,8 @@ const getUserRoles = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        return res.cookie = ''
+        res.cookie('token','')
+        return res.json({ok: "Logout exitoso"})
     } catch (error) {
         res.status(400).json({error: error.message})
     }
