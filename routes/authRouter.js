@@ -14,6 +14,6 @@ router.post('/login', login);
 
 router.get('/:username/roles', tokenValidator, getUserRoles)
 
-router.post('/logout', tokenValidator, logout)
+router.post('/logout',logout)
 
 module.exports = router;
