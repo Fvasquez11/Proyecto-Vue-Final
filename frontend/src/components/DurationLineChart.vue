@@ -49,7 +49,7 @@ export default {
         console.error(e);
       }
     } else {
-      console.log("Petición no hecha por ID nulo");
+      console.log("duration-data-chart error");
     }
   },
 };

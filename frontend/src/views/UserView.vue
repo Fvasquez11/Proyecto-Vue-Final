@@ -8,24 +8,33 @@ export default {
     return {
       admin: null,
       loaded: false,
-    }
+      error: false,
+    };
   },
   components: { User, AdminUser, Footer },
   async mounted() {
-    this.loaded = false
+    this.loaded = false;
     try {
-      const urlUserResources = `http://localhost:4000/api/resources/apiusers/${this.$route.params.username}`;
       const urlUserRoles = `http://localhost:4000/api/auth/${this.$route.params.username}/roles`;
-      const resResources = await this.axios.get(urlUserResources, { withCredentials: true });
-      const resRoles = await this.axios.get(urlUserRoles, { withCredentials: true });
-      if (resRoles.data.roles.includes('admin')) this.admin = true
-      else this.admin = false
-      this.loaded = true
+      const resRoles = await this.axios.get(urlUserRoles, {
+        withCredentials: true,
+      });
+
+      if (!resRoles.data.roles.includes("admin")) {
+        const urlUserResources = `http://localhost:4000/api/resources/apiusers/${this.$route.params.username}`;
+        const resResources = await this.axios.get(urlUserResources, {
+          withCredentials: true,
+        });
+      }
+
+      if (resRoles.data.roles.includes("admin")) this.admin = true;
+      else this.admin = false;
+      this.loaded = true;
     } catch (e) {
-      console.error(e);
+      (this.error = true), console.error(e);
     }
   },
-}
+};
 </script>
 
 <template>
@@ -38,6 +47,17 @@ export default {
         <AdminUser :username="this.$route.params.username" />
       </div>
     </div>
+    <div v-if="error" class="error">
+      <h1>Este usuario no tiene datos cargados</h1>
+    </div>
     <Footer />
   </main>
 </template>
+
+<style>
+.error {
+  display: flex;
+  justify-content: center;
+  padding: 10%;
+}
+</style>

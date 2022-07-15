@@ -1,17 +1,10 @@
 <script>
-import { useMainStore } from "@/stores/mainStore";
 export default {
-  setup() {
-    const mainStore = useMainStore();
-    return {
-      mainStore,
-    };
-  },
   data() {
     return {
       username: "",
       password: "",
-      tempJWT: "",
+      rejected: false,
     };
   },
   methods: {
@@ -26,8 +19,12 @@ export default {
         this.$router.push( '/user/' + this.username )
       } catch (e) {
         console.error(e);
+        this.rejected = true;
+        this.username = "";
+        this.password = "";
       }
     },
+
   },
 };
 </script>
@@ -37,6 +34,7 @@ export default {
     <div class="loginContainer">
       <div><h3>Login</h3></div>
       <b-form @submit="onSubmit">
+        <b-badge v-if="rejected" variant="danger">Usuario o contraseña incorrectos</b-badge>
         <b-form-group
           id="input-group-user"
           label="Usuario"

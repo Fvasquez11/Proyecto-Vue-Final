@@ -30,7 +30,6 @@ export default {
     try {
       const url = `http://localhost:4000/api/resources/apiusers/${this.username}/`;
       const response = await this.axios.get(url, {withCredentials: true});
-      console.log(response)
       this.items = response.data;
       this.loaded = true;
     } catch (e) {
@@ -43,7 +42,7 @@ export default {
 <template>
   <main>
     <div class="userContent">
-      <h3>Bienvenido {{ "user.username" }}</h3>
+      <h3>Bienvenido {{ this.username }}</h3>
       <hr />
       <h5 class="selector">Sesiones de estudio</h5>
       <div class="table">

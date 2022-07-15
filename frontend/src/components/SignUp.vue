@@ -5,7 +5,9 @@ export default {
       username: "",
       password: "",
       passwordconfirm: "",
-      email: "",
+      rejected: false,
+      success: false,
+      passReject: false,
     };
   },
   methods: {
@@ -13,18 +15,26 @@ export default {
       if (this.password === this.passwordconfirm) {
         try {
           const url = `http://localhost:4000/api/auth/register`;
-          const response = await this.axios.post(url, {
-            username: this.username,
-            password: this.password,
-          } ,{withCredentials: true});
+          const response = await this.axios.post(
+            url,
+            {
+              username: this.username,
+              password: this.password,
+            },
+            { withCredentials: true }
+          );
           this.username = "";
           this.password = "";
           this.passwordconfirm = "";
-          this.email = "";
+          this.success = true;
         } catch (e) {
+          this.rejected = true;
           console.error(e);
         }
       } else {
+        this.passReject = true;
+        this.password = "";
+        this.passwordconfirm = "";
         console.log("Contrañeas no coinciden");
       }
     },
@@ -36,6 +46,9 @@ export default {
   <main>
     <div><h3>Sign Up</h3></div>
     <b-form @submit="onSubmit">
+      <b-badge v-if="rejected" variant="danger">Registro fallido</b-badge>
+      <b-badge v-if="passReject" variant="danger">Las contraseñas no coinciden</b-badge>
+      <b-badge v-if="success" variant="success">Registro exitoso</b-badge>
       <b-form-group
         id="input-group-user"
         label="Usuario"
@@ -69,18 +82,6 @@ export default {
           v-model="passwordconfirm"
           required
           type="password"
-        ></b-form-input>
-      </b-form-group>
-      <b-form-group
-        id="input-group-email"
-        label="Correo"
-        label-for="input-email"
-      >
-        <b-form-input
-          id="input-email"
-          v-model="email"
-          required
-          type="email"
         ></b-form-input>
       </b-form-group>
       <b-button type="submit" variant="primary">Registrarse</b-button>
