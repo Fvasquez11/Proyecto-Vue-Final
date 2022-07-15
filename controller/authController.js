@@ -51,10 +51,20 @@ const getUserRoles = async (req, res) => {
         return res.json({roles: userRoles});
     }
     catch (error) {
-        console.log(error)
+        res.status(400).json({error: error.message})
+    }
+}
+
+
+const logout = async (req, res) => {
+    try {
+        return res.cookie = ''
+    } catch (error) {
+        res.status(400).json({error: error.message})
     }
 }
 
 exports.register = register
 exports.login = login
 exports.getUserRoles = getUserRoles
+exports.logout = logout

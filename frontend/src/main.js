@@ -8,9 +8,11 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueCookies from 'vue-cookies'
 
 const app = createApp(App)
 
+app.use(VueCookies, { expire: '7d'})
 app.use(createPinia())
 app.use(router)
 app.use(BootstrapVue3)
