@@ -6,7 +6,7 @@ var logger = require('morgan');
 const mongoose = require('mongoose');
 require('dotenv').config()
 const cors = require('cors')
-const createRoles = require('./public/javascripts/initialSetup')
+const {createRoles, createAdmin} = require('./public/javascripts/initialSetup')
 
 var indexRouter = require('./routes/indexRouter');
 var authRouter = require('./routes/authRouter');
@@ -16,6 +16,7 @@ const whiteList = [process.env.ORIGIN1]
 
 var app = express();
 createRoles();
+createAdmin();
 
 mongoose.connect(process.env.DB_ADDRESS).then(db => console.log("Conectado a la base de datos"))
   .catch(err => console.log(err))
